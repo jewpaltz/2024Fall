@@ -9,7 +9,35 @@
     href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"
     >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
+    <style>
+        .bg-white {
+            background-color: whitesmoke;
+        }
+        .shelf {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1rem;
+        }
+        .shelf li {
+          background-color: white;
+          padding: 1rem;
+          border-radius: 0.5rem;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+          width: 150px;
+          cursor: pointer;
+        } 
+        .shelf h3 {
+          margin: 0;
+          font-size: 1.25rem;
+          font-weight: bold;
+        }
+        .shelf .price {
+          text-align: right;
+          font-size: 1rem;
+          color: #666;
+        }
+    </style>
+  </head>
 <body>
 
     <nav class="navbar" role="navigation" aria-label="main navigation">
@@ -103,10 +131,87 @@
             <div class="message-body">This is a success alert</div>
             
         </div>
+
+        <div class="section bg-white" id="app">
+          <div class="columns">
+            <div class="column is-three-quarters">
+              {{ message }}
+              <ul class="shelf">
+                <li v-for="product in products" @click="addToCart(product)">
+                  <h3>{{ product.name }}</h3>
+                  <p class="price">${{ product.price }}</p>
+                </li>
+              </ul>
+            </div>
+            <div class="column">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="item in cart">
+                    <td>{{ item.product.name }}</td>
+                    <td>${{ item.product.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.product.price * item.quantity }}</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="3">Total</td>
+                    <td>${{ cart.reduce((total, item) => total + item.product.price * item.quantity, 0) }}</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
     </div>
 </div>
 </div>
 
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+  const { createApp, ref } = Vue
 
+  createApp({
+    setup() {
+      const message = ref('Hello vue!')
+
+      const products = ref([
+        { name: 'Pizza', price: 5.50 },
+        { name: 'Burger', price: 6.99 },
+        { name: 'Coke', price: 2.15 },
+        { name: 'Fries', price: 3.25 },
+        { name: 'Salad', price: 4.75 },
+        { name: 'Ice Cream', price: 2.99 },
+        { name: 'Coffee', price: 1.99 },
+        { name: 'Tea', price: 1.50 },
+        { name: 'Water', price: 1.00 },
+        { name: 'Juice', price: 2.25 }
+      ])
+
+      const cart = ref([])
+
+      function addToCart(product) {
+        const item = cart.value.find(item => item.product.name === product.name)
+        if(item) {
+          item.quantity++
+        } else {
+          cart.value.push({ product, quantity: 1 })
+        }
+      }
+
+      return {
+        message, products, cart, addToCart
+      }
+    }
+  }).mount('#app')
+</script>
 </body>
 </html>
