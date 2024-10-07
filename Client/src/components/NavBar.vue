@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { RouterLink } from 'vue-router'
+
+const isOpen = ref(false)
 </script>
 
 <template>
@@ -8,7 +11,8 @@ import { RouterLink } from 'vue-router'
       <div class="navbar-brand">
         <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="30" height="30" />
 
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+           :class="{ 'is-active': isOpen }" @click="isOpen = !isOpen">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -16,7 +20,7 @@ import { RouterLink } from 'vue-router'
         </a>
       </div>
 
-      <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-menu" :class="{ 'is-active': isOpen }">
         <div class="navbar-start">
           <RouterLink to="/" class="navbar-item">Home</RouterLink>
           <RouterLink to="/about" class="navbar-item">About</RouterLink>
