@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router'
 import FlyoutPanel from './FlyoutPanel.vue';
+import ShoppingCart from './ShoppingCart.vue';
 
 const isOpen = ref(false)
 const isCartOpen = ref(false)
@@ -74,7 +75,7 @@ const isCartOpen = ref(false)
     </div>
   </nav>
   <FlyoutPanel :is-open="isCartOpen">
-    <h1 class="title">Shopping Cart</h1>
+    <ShoppingCart />
   </FlyoutPanel>
 
 </template>
