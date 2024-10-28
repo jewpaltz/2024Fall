@@ -13,13 +13,19 @@ const cart = refCart()
             <p>Your cart is empty</p>
         </div>
         <div v-else>
-            <div v-for="item in cart" :key="item.product.id">
-                <div>{{ item.product.title }}</div>
-                <div>{{ item.product.price }}</div>
-                <div>{{ item.quantity }}</div>
+            <div v-for="item in cart" :key="item.product.id" class="item">
+                <img :src="item.product.thumbnail" alt="product image" />
+                <h3>{{ item.product.title }}</h3>
+                <div>
+                    ${{ item.product.price }} x
+                    <select v-model="item.quantity">
+                        <option v-for="n in 10" :key="n">{{ n }}</option>
+                    </select> =
+                    ${{ item.quantity * item.product.price }}
+                </div>
             </div>
             <div>
-                <p>Total: {{ count }} items = ${{ total }}</p>
+                <h3>{{ count }} items totaling ${{ total }}</h3>
             </div>
         </div>
 
@@ -27,7 +33,24 @@ const cart = refCart()
 </template>
 
 <style scoped>
+h3 {
+    font-weight: bold;
+}
+
+.item {
+    margin-bottom: .5rem;
+    padding-bottom: .5rem;
+    border-bottom: 1px inset #ddd;
+}
+
 .cart {
     padding: 1rem;
+}
+
+.cart img {
+    width: 50px;
+    height: 50px;
+    margin-right: 1rem;
+    float: left;
 }
 </style>
