@@ -35,8 +35,6 @@ jobs:
             - name: Build Vue app
               run: |
                   cd Client
-                  npm i
-                  npm install
                   npm run build
 
             - name: Setup Pages
