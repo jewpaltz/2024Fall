@@ -32,11 +32,13 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
 
+            - uses: pnpm/action-setup@v4
+
             - name: Build Vue app
               run: |
                   cd Client
-                  npm install --dev
-                  npm run build
+                  pnpm install
+                  pnpm run build
 
             - name: Setup Pages
               uses: actions/configure-pages@v5
