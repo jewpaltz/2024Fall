@@ -21,11 +21,11 @@ const cart = refCart()
                     <select v-model="item.quantity">
                         <option v-for="n in 10" :key="n">{{ n }}</option>
                     </select> =
-                    ${{ item.quantity * item.product.price }}
+                    ${{ (item.quantity * item.product.price).toFixed(2) }}
                 </div>
             </div>
             <div>
-                <h3>{{ count }} items totaling ${{ total }}</h3>
+                <h3>{{ count }} items totaling ${{ total.toFixed(2) }}</h3>
             </div>
         </div>
 
