@@ -1,0 +1,19 @@
+# B"H
+
+###
+GET https://google.com
+
+###
+POST https://dummyjson.com/products/add
+MyHeader: MyValue
+
+{
+    "title": "Green Lip Stick",
+    "price": 12.99,
+    "description": "A green lip stick for the bold and daring.",
+    "image": "https://dummyimage.com/300x300.png/00ff00/ffffff",
+
+}
+
+###
+http://localhost:3000
