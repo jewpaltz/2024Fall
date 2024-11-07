@@ -1,0 +1,22 @@
+
+
+###
+GET http://localhost:3000/products
+
+###
+GET http://localhost:3000/products/30
+
+###
+DELETE http://localhost:3000/products/1
+
+###
+POST http://localhost:3000/products
+Content-Type: application/json
+
+{
+    "firstName": "Moshe",
+    "lastName": "Goldberg",
+    "age": 30,
+    "email": "goldberg@newpaltz.edu",
+    "password": "123456"
+}
