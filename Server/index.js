@@ -9,6 +9,7 @@ const PORT = 3000
 
 // Middleware
 app.use(express.json())
+app.use(express.static(__dirname + "/dist"))
 
 // Controllers
 app.get("/", (req, res) => {
