@@ -7,6 +7,10 @@ const productController = require("./controllers/products")
 
 const PORT = 3000
 
+// Middleware
+app.use(express.json())
+
+// Controllers
 app.get("/", (req, res) => {
     res.send("Hello World")
 })
