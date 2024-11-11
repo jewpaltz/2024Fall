@@ -18,8 +18,8 @@ app.get("/", (req, res) => {
     .get("/about", (req, res) => {
         res.send("About Us")
     })
-    .use("/users", userController)
-    .use("/products", productController)
+    .use("/api/v1/users", userController)
+    .use("/api/v1/products", productController)
 
 app.listen(PORT, () => {
     console.log("Server is running at http://localhost:" + PORT)

@@ -1,16 +1,16 @@
 
 
 ###
-GET http://localhost:3000/products
+GET http://localhost:3000/api/v1/products
 
 ###
-GET http://localhost:3000/products/30
+GET http://localhost:3000/api/v1/products/30
 
 ###
-DELETE http://localhost:3000/products/1
+DELETE http://localhost:3000/api/v1/products/1
 
 ###
-POST http://localhost:3000/products
+POST http://localhost:3000/api/v1/products
 Content-Type: application/json
 
 {
@@ -22,7 +22,7 @@ Content-Type: application/json
 }
 
 ###
-PATCH http://localhost:3000/products/31
+PATCH http://localhost:3000/api/v1/products/31
 Content-Type: application/json
 
 {
