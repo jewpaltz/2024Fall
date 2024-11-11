@@ -10,27 +10,27 @@ const data = require("../data/products.json")
 
 /**
  * Get all users
- * @returns {Product[]}
+ * @returns {Promise<Product[]>}
  */
-function getAll() {
+async function getAll() {
     return data.items
 }
 
 /**
  * Get a user by id
  * @param {number} id
- * @returns {Product}
+ * @returns {Promise<Product>}
  */
-function get(id) {
+async function get(id) {
     return data.items.find((user) => user.id == id)
 }
 
 /**
  * Add a new user
  * @param {Product} user
- * @returns {Product}
+ * @returns {Promise<Product>}
  */
-function add(user) {
+async function add(user) {
     user.id = data.items.reduce((prev, x) => (x.id > prev ? x.id : prev), 0) + 1
     data.items.push(user)
     return user
@@ -40,9 +40,9 @@ function add(user) {
  * Update a user
  * @param {number} id
  * @param {Product} user
- * @returns {Product}
+ * @returns {Promise<Product>}
  */
-function update(id, user) {
+async function update(id, user) {
     const userToUpdate = get(id)
     Object.assign(userToUpdate, user)
     return userToUpdate
@@ -51,10 +51,12 @@ function update(id, user) {
 /**
  * Remove a user
  * @param {number} id
- * @returns {{ success: boolean, message: string, id: number }}
+ * @returns {Promise<{ success: boolean, message: string, id: number }>}
  */
-function remove(id) {
+async function remove(id) {
     const itemIndex = data.items.findIndex((user) => user.id == id)
+    if (itemIndex === -1)
+        throw { success: false, message: "Item not found", id: id }
     data.items.splice(itemIndex, 1)
     return { success: true, message: "Item deleted", id: id }
 }
