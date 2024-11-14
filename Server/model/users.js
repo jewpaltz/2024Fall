@@ -76,7 +76,12 @@ async function update(id, user) {
 async function remove(id) {
     const itemIndex = data.items.findIndex((user) => user.id == id)
     if (itemIndex === -1)
-        throw { isSuccess: false, message: "Item not found", data: id }
+        throw {
+            isSuccess: false,
+            message: "Item not found",
+            data: id,
+            status: 404,
+        }
     data.items.splice(itemIndex, 1)
     return { isSuccess: true, message: "Item deleted", data: id }
 }

@@ -25,6 +25,12 @@ app.get("/", (req, res, next) => {
         res.sendFile(__dirname + "/dist/index.html")
     })
 
+// Error Handling
+app.use((err, req, res, next) => {
+    console.error(err)
+    res.status(err.status ?? 500).send(err)
+})
+
 console.log("Step #1")
 app.listen(PORT, (err, data) => {
     console.log("Step #2")
