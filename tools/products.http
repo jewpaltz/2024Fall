@@ -14,11 +14,11 @@ POST http://localhost:3000/api/v1/products
 Content-Type: application/json
 
 {
-    "title": "Delivery Drone",
+    "title": "Balistic Missile",
     "price": 1000,
-    "description": "A drone that delivers packages to your door",
-    "thumbnail": "https://cdn.pixabay.com/photo/2016/03/09/09/22/delivery-1245778_960_720.jpg",
-    "category": "drones"
+    "description": "A missile that can destroy a city",
+    "thumbnail": "https://media-cldnry.s-nbcnews.com/image/upload/t_focal-860x484,f_auto,q_auto:best/mpx/2704722219/2024_11/1731932405082_tdy_news_7a_keir_biden_ukraine_241118_1920x1080-00zv90.jpg",
+    "category": "weppons"
 }
 
 ###
