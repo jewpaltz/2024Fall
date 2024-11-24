@@ -2,14 +2,12 @@ B"H
 
 # This is an example repository for the "Web Programming" course at SUNY New Paltz.
 
-## Getting Started
+## .env file used in the server project
 
-1. Clone this repository.
-2. Open the `index.html` file in your browser.
-
-## Example Code
-
-```typescript
+```
+SUPABASE_URL=https://lvitlsfzyjegkhowlmka.supabase.co
+SUPABASE_SECRET_KEY=
+SUPABASE_ANON_KEY=
 
 ```
 
