@@ -25,7 +25,8 @@ async function getAll() {
         .from("products")
         .select("*", { count: "estimated" })
     return {
-        isSuccess: true,
+        isSuccess: !error,
+        message: error?.message,
         data: data,
         total: count,
     }
@@ -37,39 +38,107 @@ async function getAll() {
  * @returns {Promise<DataEnvelope<Product>>}
  */
 async function get(id) {
-    const item = data.items.find((user) => user.id == id)
+    const { data, error } = await conn
+        .from("products")
+        .select("*, reviews(*)")
+        .eq("id", id)
+        .single()
     return {
-        isSuccess: !!item,
-        data: item,
+        isSuccess: !error,
+        message: error?.message,
+        data: data,
     }
 }
 
 /**
- * Add a new user
- * @param {Product} user
+ * Add a new product
+ * @param {Product} product
  * @returns {Promise<DataEnvelope<Product>>}
  */
-async function add(user) {
-    user.id = data.items.reduce((prev, x) => (x.id > prev ? x.id : prev), 0) + 1
-    data.items.push(user)
+async function add(product) {
+    const { data, error } = await conn
+        .from("products")
+        .insert([
+            {
+                images: product.images,
+                category: product.category,
+                description: product.description,
+                price: product.price,
+                title: product.title,
+                dimensions: product.dimensions,
+                minimumOrderQuantity: product.minimumOrderQuantity,
+                rating: product.rating,
+                returnPolicy: product.returnPolicy,
+                tags: product.tags,
+                weight: product.weight,
+                thumbnail: product.thumbnail,
+                brand: product.brand,
+            },
+        ])
+        .select("*")
+        .single()
+
+    if (product.reviews?.length) {
+        await conn
+            .from("reviews")
+            .insert(
+                product.reviews.map((review) => ({
+                    productId: data.id,
+                    rating: review.rating,
+                    comment: review.comment,
+                    reviewerEmail: review.reviewerEmail,
+                    reviewerName: review.reviewerName,
+                    date: review.date,
+                }))
+            )
+            .select("*")
+    }
+
     return {
-        isSuccess: true,
-        data: user,
+        isSuccess: !error,
+        message: error?.message,
+        data: data,
+    }
+}
+
+async function seed() {
+    for (const product of data.items) {
+        await add(product)
     }
 }
 
 /**
  * Update a user
  * @param {number} id
- * @param {Product} user
+ * @param {Product} product
  * @returns {Promise<DataEnvelope<Product>>}
  */
-async function update(id, user) {
-    const userToUpdate = await get(id)
-    Object.assign(userToUpdate.data, user)
+async function update(id, product) {
+    const { data, error } = await conn
+        .from("products")
+        .update({
+            images: product.images,
+            category: product.category,
+            description: product.description,
+            price: product.price,
+            title: product.title,
+            dimensions: product.dimensions,
+            minimumOrderQuantity: product.minimumOrderQuantity,
+            rating: product.rating,
+            returnPolicy: product.returnPolicy,
+            tags: product.tags,
+            weight: product.weight,
+            thumbnail: product.thumbnail,
+            brand: product.brand,
+        })
+        .eq("id", id)
+        .select("*")
+        .single()
+
     return {
-        isSuccess: true,
-        data: userToUpdate.data,
+        isSuccess: !error,
+        message: error?.message,
+        data: data,
     }
 }
 
@@ -79,11 +148,18 @@ async function update(id, user) {
  * @returns {Promise<DataEnvelope<number>>}
  */
 async function remove(id) {
-    const itemIndex = data.items.findIndex((user) => user.id == id)
-    if (itemIndex === -1)
-        throw { isSuccess: false, message: "Item not found", data: id }
-    data.items.splice(itemIndex, 1)
-    return { isSuccess: true, message: "Item deleted", data: id }
+    const { data, error } = await conn
+        .from("products")
+        .delete()
+        .eq("id", id)
+        .select("*")
+        .single()
+
+    return {
+        isSuccess: !error,
+        message: error?.message,
+        data: data,
+    }
 }
 
 module.exports = {
@@ -92,4 +168,5 @@ module.exports = {
     add,
     update,
     remove,
+    seed,
 }

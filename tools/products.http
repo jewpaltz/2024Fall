@@ -4,7 +4,7 @@
 GET http://localhost:3000/api/v1/products
 
 ###
-GET http://localhost:3000/api/v1/products/30
+GET http://localhost:3000/api/v1/products/32
 
 ###
 DELETE http://localhost:3000/api/v1/products/1
@@ -18,7 +18,18 @@ Content-Type: application/json
     "price": 1000,
     "description": "A missile that can destroy a city",
     "thumbnail": "https://media-cldnry.s-nbcnews.com/image/upload/t_focal-860x484,f_auto,q_auto:best/mpx/2704722219/2024_11/1731932405082_tdy_news_7a_keir_biden_ukraine_241118_1920x1080-00zv90.jpg",
-    "category": "weppons"
+    "category": "weapons",
+    "rating": 5,
+    "tags": ["weapon", "missile", "destruction"],
+    "weight": 1000,
+    "dimensions": {
+        "length": 10,
+        "width": 10,
+        "height": 10
+    },
+    "returnPolicy": "You can return the product within 30 days of purchase"
+    ,"minimumOrderQuantity": 1,
+    "images": []
 }
 
 ###
@@ -29,3 +40,6 @@ Content-Type: application/json
     "price": 1100,
     "description": "A drone that delivers you treasures to your door"
 }
+
+###
+POST http://localhost:3000/api/v1/products/seed
