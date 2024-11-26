@@ -33,7 +33,7 @@ Content-Type: application/json
 }
 
 ###
-PATCH http://localhost:3000/api/v1/products/31
+PATCH http://localhost:3000/api/v1/products/70 # Keep this updated to a valid product id
 Content-Type: application/json
 
 {

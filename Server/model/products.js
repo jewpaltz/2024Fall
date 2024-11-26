@@ -130,6 +130,7 @@ async function update(id, product) {
             weight: product.weight,
             thumbnail: product.thumbnail,
             brand: product.brand,
+            updatedAt: new Date().toISOString(), // mark it with the latest timestamp every time it's updated
         })
         .eq("id", id)
         .select("*")
