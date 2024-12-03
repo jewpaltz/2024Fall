@@ -15,3 +15,17 @@ export function rest<T>(url: string, data?: any, method?: string): Promise<T> {
 export function api<T>(url: string, data?: any, method?: string): Promise<T> {
   return rest<T>(API_URL + url, data, method)
 }
+
+export async function loadScript(url: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${url}"]`)) {
+      resolve()
+      return
+    }
+    const script = document.createElement('script')
+    script.src = url
+    script.onload = () => resolve()
+    script.onerror = (err) => reject(err)
+    document.head.appendChild(script)
+  })
+}
