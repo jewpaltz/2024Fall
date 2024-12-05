@@ -21,10 +21,27 @@ const session = refSession()
         </i>
         Google Log in
     </a>
-    <div v-if="session.user">
-        {{ session.user.firstName }}
-        {{ session.user.lastName }}
+    <div v-if="session.user" class="user-info">
+        <img :src="session.user.image" alt="User Photo" height="50" />
+        <div>
+            <h4>
+                {{ session.user.firstName }}
+                {{ session.user.lastName }}
+            </h4>
+            <i>{{ session.user.email }}</i>&nbsp;
+            (<a @click.prevent="logins.logout">Log out</a>)
+        </div>
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-info img {
+    border-radius: 50%;
+    margin-right: 10px;
+}
+</style>

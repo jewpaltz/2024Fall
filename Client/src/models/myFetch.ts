@@ -2,11 +2,17 @@
  */
 const API_URL = 'http://localhost:3000/api/v1/'
 
-export function rest<T>(url: string, data?: any, method?: string): Promise<T> {
+export function rest<T>(
+  url: string,
+  data?: any,
+  method?: string,
+  headers?: Record<string, string>
+): Promise<T> {
   return fetch(url, {
     method: method ?? (data ? 'POST' : 'GET'),
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      ...headers
     },
     body: data ? JSON.stringify(data) : undefined
   }).then((x) => x.json())
