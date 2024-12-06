@@ -50,7 +50,11 @@ export const useLogin = () => ({
 
     const tokenClient = google.accounts.oauth2.initTokenClient({
       client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-      scope: 'email',
+      scope:
+        'email ' +
+        'profile ' +
+        'https://www.googleapis.com/auth/contacts.readonly ' +
+        'https://www.googleapis.com/auth/photoslibrary.readonly',
       callback: async (response: any) => {
         console.log('response', response)
         if (response.access_token) {
@@ -81,3 +85,30 @@ export const useLogin = () => ({
     tokenClient.requestAccessToken({})
   }
 })
+
+export async function getGoogleContacts() {
+  const contacts = await rest<any>(
+    'https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses,phoneNumbers,photos',
+    undefined,
+    'GET',
+    {
+      Authorization: `Bearer ${session.value.token}`
+    }
+  )
+
+  console.log({ contacts })
+  return contacts
+}
+
+export async function getGooglePhotos() {
+  const photos = await rest<any>(
+    `https://photoslibrary.googleapis.com/v1/mediaItems?pageSize=100`,
+    undefined,
+    undefined,
+    {
+      Authorization: `Bearer ${session.value.token}`
+    }
+  )
+  console.log({ photos })
+  return photos
+}
