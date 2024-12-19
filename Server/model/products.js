@@ -32,6 +32,21 @@ async function getAll() {
     }
 }
 
+async function search(query) {
+    const { data, error, count } = await conn
+        .from("products")
+        .select("*", { count: "estimated" })
+        .or(
+            `title.ilike.%${query}%,description.ilike.%${query}%,category.ilike.%${query}%")`
+        )
+    return {
+        isSuccess: !error,
+        message: error?.message,
+        data: data,
+        total: count,
+    }
+}
+
 /**
  * Get a user by id
  * @param {number} id
@@ -170,4 +185,5 @@ module.exports = {
     update,
     remove,
     seed,
+    search,
 }
