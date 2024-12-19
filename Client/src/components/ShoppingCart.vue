@@ -1,14 +1,55 @@
 <script setup lang="ts">
-import { refCart, count, total, removeFromCart } from '@/models/shoppingCart';
+import { search, type Product } from '@/models/products';
+import { refCart, count, total, removeFromCart, addToCart } from '@/models/shoppingCart';
+import type { OptionsPropItem } from '@oruga-ui/oruga-next';
+import { ref } from 'vue';
 
 
 const cart = refCart()
+const selected = ref('')
+const options = ref<OptionsPropItem<Product>[]>([])
+
+async function getAsyncData(query: string) {
+    const data = await search(query)
+    options.value = data.data.map((product: Product) => {
+        return {
+            value: product,
+            label: product.title,
+            thumbnail: product.thumbnail
+        }
+    })
+}
+
+function selectProduct(product: Product) {
+    addToCart(product)
+    selected.value = ''
+}
 
 </script>
 
 <template>
     <div class="cart">
         <h1 class="title">Shopping Cart</h1>
+
+        <section>
+            <o-field label="Find a JS framework">
+                <o-autocomplete
+                                v-model="selected"
+                                :options="options"
+                                :debounce="500"
+                                @input="getAsyncData"
+                                @select="selectProduct"
+                                rounded
+                                expanded
+                                placeholder="Item to purchase"
+                                icon="search"
+                                clearable
+                                open-on-focus>
+                    <template #empty>No results found</template>
+                </o-autocomplete>
+            </o-field>
+        </section>
+
         <div v-if="cart.length === 0">
             <p>Your cart is empty</p>
         </div>
@@ -46,6 +87,7 @@ h3 {
 .cart {
     padding: 1rem;
     overflow-y: auto;
+    height: 100%;
 }
 
 .cart img {

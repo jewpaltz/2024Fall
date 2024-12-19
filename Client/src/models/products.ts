@@ -5,6 +5,10 @@ export async function getAll() {
   return api<DataListEnvelope<Product>>('products')
 }
 
+export async function search(query: string) {
+  return api<DataListEnvelope<Product>>(`products/search?q=${query}`)
+}
+
 export async function getById(id: number) {
   return api<DataEnvelope<Product>>(`products/${id}`)
 }
